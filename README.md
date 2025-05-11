@@ -1,6 +1,6 @@
 # `vite-plugin-create`
 
-[![npm version](https://img.shields.io/npm/v/vite-plugin-module-alias.svg)](https://www.npmjs.com/package/vite-plugin-module-alias)
+[![npm version](https://img.shields.io/npm/v/vite-plugin-create.svg)](https://www.npmjs.com/package/vite-plugin-create)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `vite-plugin-create` is a Vite plugin and CLI tool for quickly generating components, stores, pages, and other entities. The plugin helps speed up development by utilizing customizable templates.
