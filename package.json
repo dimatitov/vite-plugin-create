@@ -1,0 +1,50 @@
+{
+  "name": "vite-plugin-create",
+  "version": "0.2.0",
+  "description": "A Vite plugin and CLI to generate components, stores, pages and more from customizable templates.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "vite-create": "./dist/bin/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "postbuild": "node scripts/copy-init-assets.js",
+    "start": "node dist/bin/cli.js"
+  },
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "component",
+    "generator",
+    "cli",
+    "template",
+    "scaffold",
+    "react",
+    "typescript"
+  ],
+  "author": "Dima Titov",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "commander": "^4.1.1",
+    "fs-extra": "^11.3.0",
+    "handlebars": "^4.7.8"
+  },
+  "devDependencies": {
+    "@types/commander": "^2.12.5",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.0.0",
+    "tsup": "^7.2.0",
+    "typescript": "^5.8.3",
+    "vite": "^5.0.0"
+  }
+}
