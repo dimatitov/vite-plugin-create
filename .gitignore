@@ -14,3 +14,5 @@ build/
 *.log
 *.lock
 coverage/
+
+dist/
