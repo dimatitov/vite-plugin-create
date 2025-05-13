@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-create",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A Vite plugin and CLI to generate components, stores, pages and more from customizable templates.",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
