@@ -1,5 +1,5 @@
 {
-  "defaultPath": "src",
+  "defaultPath": "react/src",
   "templateVars": {
     "useTypeScript": true,
     "fileNameStyle": "pascalCase"
@@ -8,39 +8,32 @@
     "component": {
       "path": "components/{{name}}",
       "fileNameStyle": "pascalCase",
-      "filesTS": {
+      "files": {
         "{{name}}.tsx": "templates/component/component.tsx",
         "{{name}}.module.scss": "templates/component/style.scss",
         "index.ts": "templates/component/index.ts"
-      },
-      "filesJS": {
-        "{{name}}.jsx": "templates/component/component.jsx",
-        "{{name}}.module.scss": "templates/component/style.scss",
-        "index.js": "templates/component/index.js"
       }
     },
     "page": {
       "path": "pages/{{name}}",
       "fileNameStyle": "kebab-case",
-      "filesTS": {
+      "files": {
         "{{name}}.tsx": "templates/page/page.tsx",
         "index.ts": "templates/page/index.ts",
-        "{{name}}.module.scss": "templates/page/style.scss"
-      },
-      "filesJS": {
-        "{{name}}.jsx": "templates/page/page.jsx",
-        "index.js": "templates/page/index.js",
         "{{name}}.module.scss": "templates/page/style.scss"
       }
     },
     "store": {
       "path": "stores/{{name}}",
       "fileNameStyle": "camelCase",
-      "filesTS": {
+      "files": {
         "{{name}}.ts": "templates/store/zustand.ts"
-      },
-      "filesJS": {
-        "{{name}}.js": "templates/store/zustand.js"
+      }
+    },
+    "custom": {
+      "path": "customs/{{name}}",
+      "files": {
+        "{{name}}.ts": "templates/custom/index.ts"
       }
     }
   }

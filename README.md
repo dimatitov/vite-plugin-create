@@ -5,21 +5,25 @@
 
 `vite-plugin-create` is a Vite plugin and CLI tool for quickly generating components, stores, pages, and other entities. The plugin helps speed up development by utilizing customizable templates.
 
+## Why vite-plugin-create?
+
+Tired of repetitive boilerplate? `vite-plugin-create` is a powerful yet simple Vite plugin and CLI tool designed to save you hours by automating component, page, store, and custom entity generation — fully customizable and scalable for any project size.
+
 ---
 
 ## ✨ Features
 
-- Generate components, pages, and other entities using customizable templates.
-- Easily add new templates and commands.
-- Support for multiple file naming styles (PascalCase, camelCase, kebabCase).
-- Automatic creation of configuration and templates using the `vite-create init` command.
-- The plugin can sync templates with configuration files like `tsconfig.json`.
+- Highly flexible and extensible — create your own generators and templates tailored to your workflow.
+- Designed for rapid development and zero-copy-paste productivity boost.
+- Generate components, pages, stores, or any custom entity using templates.
+- Create your own generators in `vite-create.config.json`.
+- Supports file naming styles: `PascalCase`, `camelCase`, `kebab-case`, `original`.
+- Choose between TypeScript or JavaScript on `init`.
+- Automatically creates configuration and templates via `vite-create init`.
 
 ---
 
 ## 📦 Installation
-
-To install the plugin, run the following command:
 
 ```bash
 npm install vite-plugin-create --save-dev
@@ -33,169 +37,152 @@ yarn add vite-plugin-create --dev
 
 ---
 
-## 📑 Plugin API
-
-### Available Commands:
-
-- **`npx vite-create init`** — initializes configuration and templates.
-- **`npx vite-create component <name>`** — creates a component with the specified name.
-
----
-
-## 💡 Detailed Command Descriptions
+## 🚀 Usage
 
 ### 1. `npx vite-create init`
 
-This command initializes the project by creating:
+Initializes configuration and templates.
+You’ll be asked:
 
-- The default `vite-create.config.json` configuration file if it doesn't exist.
-- The `templates/` folder containing templates for generating components, styles, and tests.
+- Do you want to use TypeScript?
 
-#### Template Structure:
+Based on your choice, the correct config and template files will be added to your project.
 
-In the `templates/` folder, a folder is created for each type of entity. For example, for components, the structure is as follows:
+### 2. `npx vite-create <generator> <name>`
 
-- **templates/component/**
-  - `component.tsx`
-  - `style.scss`
-  - `index.ts`
-  - `test.tsx`
+Creates the entity with the given name using the matching generator in config.
 
-These files serve as templates that will be used for generating new components. All files use placeholders (e.g., `{{name}}`), which will be replaced with the component's name during generation.
+Example:
 
-### 2. `npx vite-create component <name>`
-
-This command generates a new component with the specified name:
-
-- Creates a file structure in the folder specified in the config, with the files you specify.
-- The component template includes props, basic structure, and imports for styles, as described in the `templates/component/component.tsx` file.
-
-#### Example Component Created:
-
-After running the command **`npx vite-create component Button`**, the following structure is created:
-
-- **components/Button**
-  - `Button.tsx`
-  - `style.scss`
-  - `index.ts`
+```bash
+npx vite-create component Button
+npx vite-create page Home
+npx vite-create custom myThing
+```
 
 ---
 
-## 🔧 How to Work with the Plugin
-
-### Creating and Configuring Templates
-
-1. Create a `templates/` folder to store templates for each entity type (e.g., components, pages, etc.).
-2. Run the command `npx vite-create init` to initialize the templates.
-3. Configure the templates in the `vite-create.config.json` file, specifying which files and templates should be used.
-
-#### Example Template Structure:
+## 📁 Folder Structure After Init
 
 ```
 templates/
   component/
-    component.tsx
+    component.tsx / .jsx
     style.scss
-    index.ts
-    test.ts
+    index.ts / .js
+    test.tsx / .jsx
+  page/
+    page.tsx / .jsx
+    index.ts / .js
+    style.scss
+  store/
+    zustand.ts / .js
+vite-create.config.json
 ```
 
-#### Example Component Template:
+---
 
-To correctly substitute the name, use `{{name}}` in the templates.
+## 🛠 Configuration (vite-create.config.json)
 
-```typescript
-import styles from './{{name}}.module.scss';
-
-export interface {{name}}Props {
-  className?: string;
-}
-
-export const {{name}}: React.FC<{{name}}Props> = ({ className }) => {
-  return (
-    <div className={styles.root}>
-      {{name}} component
-    </div>
-  );
-};
-```
-
-### Example Template Configuration:
+Example config:
 
 ```json
 {
   "defaultPath": "src",
-  "fileNameStyle": "pascalCase",
+  "templateVars": {
+    "useTypeScript": true,
+    "fileNameStyle": "pascalCase"
+  },
   "generators": {
     "component": {
       "path": "components/{{name}}",
+      "fileNameStyle": "pascalCase",
       "files": {
         "{{name}}.tsx": "templates/component/component.tsx",
-        "index.ts": "templates/component/index.ts",
         "{{name}}.module.scss": "templates/component/style.scss",
-        "{{name}}.test.tsx": "templates/component/test.tsx"
+        "index.ts": "templates/component/index.ts"
+      }
+    },
+    "page": {
+      "path": "pages/{{name}}",
+      "fileNameStyle": "kebab-case",
+      "files": {
+        "{{name}}.tsx": "templates/page/page.tsx",
+        "{{name}}.module.scss": "templates/page/style.scss",
+        "index.ts": "templates/page/index.ts"
+      }
+    },
+    "store": {
+      "path": "stores/{{name}}",
+      "fileNameStyle": "camelCase",
+      "files": {
+        "{{name}}.ts": "templates/store/zustand.ts"
       }
     }
   }
 }
 ```
 
-- **`defaultPath`** — the path where files will be created (e.g., `src` or `components`).
-- **`fileNameStyle`** — the file naming style (`pascalCase`, `camelCase`, `kebabCase`, or `original`). Defaults to `pascalCase`.
-- **`generators`** — configuration for generating entities such as components.
-- **`component`** — the generator for creating a component, including the path and files that will be created from templates.
+- Add any custom generator by extending the `generators` field.
+- Template files can use Handlebars placeholders: `{{name}}`, `{{PascalCaseName}}`, etc.
 
 ---
 
-## 📍 Example Component Creation
+## 🧪 Custom Generators
 
-After initializing and configuring the templates, you can create a component by running the following command:
+You can define and use any generator by name:
+
+```json
+"generators": {
+  "custom": {
+    "path": "customs/{{name}}",
+    "files": {
+      "{{name}}.ts": "templates/custom/index.ts"
+    }
+  }
+}
+```
+
+Then run:
 
 ```bash
-npx vite-create component Button
+npx vite-create custom MyUtility
 ```
 
-This will generate the following structure:
-
-```
-components/
-  Button/
-    Button.tsx
-    style.scss
-    index.ts
-```
+```markdown
+You can create generators with **any** name you want — not just "custom".  
+Simply add your generator config with a unique name in `vite-create.config.json` and create matching templates.  
+Then run `npx vite-create your-generator-name <entityName>`.
 
 ---
 
 ## 🛣 Roadmap
 
-### 1. Generating Other Entities
-
-- Commands for generating other entities like `vite-create page <name>`, `vite-create store <name>`, will be added in future versions.
-
-### 2. Adding New Templates and Entities
-
-- Easily add new commands and templates to extend the plugin's functionality.
+- ✅ Custom generators
+- ✅ TypeScript / JavaScript toggle via init prompt
+- ✅ Naming styles per generator
+- ✅ File extensions mapped automatically (.ts/.tsx/.js/.jsx)
+- 📁 Directory-based template support
+- 🧰 Future: simple GUI configurator (in CLI or browser)
+- 🌐 Future: official website with full documentation and interactive playground
 
 ---
 
-## 🧩 Dependencies
+## 🔧 Dependencies
 
-This plugin uses the following libraries:
+- `commander`
+- `fs-extra`
+- `handlebars`
+- `inquirer`
+- `typescript`
 
-- **`commander`** — for command-line parsing and creating the CLI interface.
-- **`fs-extra`** — for convenient file system operations.
-- **`handlebars`** — for template generation.
+---
 
-### Development:
+## Contributing & Community
 
-- **`@types/commander`** — type definitions for `commander`.
-- **`@types/fs-extra`** — type definitions for `fs-extra`.
-- **`@types/node`** — type definitions for Node.js.
-- **`tsup`** — for bundling the project.
-- **`typescript`** — for TypeScript development.
-- **`vite`** — for integration with Vite.
+`vite-plugin-create` is 100% open source and thrives thanks to an active community. Your ideas, feedback, and pull requests are always welcome — let’s build the best developer experience together!
 
-## License
+## 📜 License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+MIT — [opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)
+```

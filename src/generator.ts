@@ -9,6 +9,9 @@ export const runCreateCommand = async (
   name: string,
   configPath = "vite-create.config.json"
 ) => {
+  console.log(`Creating type ${type}...`);
+  console.log(`Creating name ${name}...`);
+  console.log(`Creating configPath ${configPath}...`);
   const configFile = path.resolve(process.cwd(), configPath);
   if (!fs.existsSync(configFile)) {
     console.error(`Config file not found: ${configFile}`);
@@ -17,6 +20,7 @@ export const runCreateCommand = async (
 
   const config = JSON.parse(fs.readFileSync(configFile, "utf-8"));
   const generator = config.generators?.[type];
+  const useTS = config.templateVars.useTypeScript !== false;
 
   if (!generator) {
     console.error(`Generator '${type}' not found in config.`);
@@ -33,9 +37,12 @@ export const runCreateCommand = async (
     ...(config.templateVars || {}),
   };
 
-  const nameStyle: FILE_NAME_STYLE = templateVars.fileNameStyle || "PascalCase";
+  const generatorStyle: FILE_NAME_STYLE =
+    generator.fileNameStyle ||
+    config.fileNameStyle ||
+    FILE_NAME_STYLE.PASCAL_CASE;
 
-  switch (nameStyle) {
+  switch (generatorStyle) {
     case FILE_NAME_STYLE.CAMEL_CASE:
       templateVars.name = templateVars.camelCaseName;
       break;
@@ -58,20 +65,50 @@ export const runCreateCommand = async (
 
   if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
 
+  const mapExtension = (filePath: string) => {
+    if (useTS) return filePath;
+    return filePath
+      .replace(/\.test\.tsx$/, ".test.jsx")
+      .replace(/\.tsx$/, ".jsx")
+      .replace(/\.ts$/, ".js");
+  };
+
   for (const [fileNameTpl, templatePath] of Object.entries(generator.files)) {
-    const fileName = Handlebars.compile(fileNameTpl)(templateVars);
-    const templateFile = path.resolve(process.cwd(), templatePath as string);
+    const fileName = Handlebars.compile(mapExtension(fileNameTpl))(
+      templateVars
+    );
+
+    const baseTemplatePath = path.resolve(
+      process.cwd(),
+      templatePath as string
+    );
+    const ext = path.extname(baseTemplatePath);
+    const baseWithoutExt = baseTemplatePath.replace(ext, "");
+
+    const preferredExt = useTS
+      ? ext // .tsx / .ts
+      : ext === ".tsx"
+      ? ".jsx"
+      : ext === ".ts"
+      ? ".js"
+      : ext;
+
+    const resolvedTemplatePath = `${baseWithoutExt}${preferredExt}`;
+
+    const fallbackPath = baseTemplatePath;
+
+    const templateFile = fs.existsSync(resolvedTemplatePath)
+      ? resolvedTemplatePath
+      : fallbackPath;
+
     if (!fs.existsSync(templateFile)) {
       console.warn(`Template file not found: ${templateFile}`);
       continue;
     }
 
     const templateContent = fs.readFileSync(templateFile, "utf-8");
-
     const template = Handlebars.compile(templateContent);
-
     const content = template(templateVars);
-
     const outputPath = path.join(targetDir, fileName);
     fs.writeFileSync(outputPath, content, "utf-8");
     console.log(`✔ Created: ${outputPath}`);
