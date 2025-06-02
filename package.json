@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-create",
-  "version": "1.0.2",
-  "description": "A Vite plugin and CLI to generate components, stores, pages and more from customizable templates.",
+  "version": "1.0.3",
+  "description": "A Vite plugin and CLI tool for scaffolding React components, stores, and pages using customizable templates. Supports TypeScript and modern Vite projects.",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,14 +31,13 @@
   },
   "keywords": [
     "vite",
-    "vite-plugin",
-    "component",
-    "generator",
-    "cli",
-    "template",
-    "scaffold",
-    "react",
-    "typescript"
+    "vite plugin",
+    "vite scaffold",
+    "react vite plugin",
+    "vite code generator",
+    "vite plugin generate",
+    "vite template cli",
+    "vite react component generator"
   ],
   "author": "Dima Titov",
   "license": "MIT",

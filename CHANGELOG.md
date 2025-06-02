@@ -26,3 +26,9 @@ All notable changes to this project will be documented in this file.
 - Improved init command to generate config and templates based on user's choices (TS/JS, style, etc.).
 - Enhanced CLI for custom entity generation with dynamic template handling.
 - Planned roadmap addition: minimal GUI for visual config editing and online docs with playground.
+
+## [1.0.3] - 2025-06-02
+
+### FIX
+
+- Update keywords

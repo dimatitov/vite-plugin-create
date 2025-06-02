@@ -1,4 +1,4 @@
-# `vite-plugin-create`
+# `vite-plugin-create` - Vite plugin to scaffold components, stores, and pages
 
 [![npm version](https://img.shields.io/npm/v/vite-plugin-create.svg)](https://www.npmjs.com/package/vite-plugin-create)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -186,3 +186,6 @@ Then run `npx vite-create your-generator-name <entityName>`.
 
 MIT — [opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)
 ```
+
+## Keywords
+Vite plugin, component generator, CLI scaffolding tool, template generator, TypeScript, React, vite-plugin-create
