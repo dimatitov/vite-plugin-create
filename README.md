@@ -20,6 +20,7 @@ Tired of repetitive boilerplate? `vite-plugin-create` is a powerful yet simple V
 - Supports file naming styles: `PascalCase`, `camelCase`, `kebab-case`, `original`.
 - Choose between TypeScript or JavaScript on `init`.
 - Automatically creates configuration and templates via `vite-create init`.
+- Generate single file entities (e.g., hooks, utils) by setting a flat "path" in config — no folder creation required.
 
 ---
 
@@ -33,6 +34,23 @@ or
 
 ```bash
 yarn add vite-plugin-create --dev
+```
+
+---
+
+## 🔌 Plugin Setup
+
+After installing, import and add the plugin to your Vite config:
+
+```ts
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import vitePluginCreate from "vite-plugin-create";
+
+export default defineConfig({
+  plugins: [react(), vitePluginCreate()],
+});
 ```
 
 ---
@@ -96,7 +114,6 @@ Example config:
   "generators": {
     "component": {
       "path": "components/{{name}}",
-      "fileNameStyle": "pascalCase",
       "files": {
         "{{name}}.tsx": "templates/component/component.tsx",
         "{{name}}.module.scss": "templates/component/style.scss",
@@ -105,7 +122,6 @@ Example config:
     },
     "page": {
       "path": "pages/{{name}}",
-      "fileNameStyle": "kebab-case",
       "files": {
         "{{name}}.tsx": "templates/page/page.tsx",
         "{{name}}.module.scss": "templates/page/style.scss",
@@ -123,8 +139,78 @@ Example config:
 }
 ```
 
+### Custom basePath per generator
+
+If your project structure differs from the default (e.g., you keep components inside `UI/components`, pages under `UI/pages`, and hooks in the root), you can override the default base path per generator like so:
+
+```json
+{
+  "defaultPath": "src",
+  "generators": {
+    "component": {
+      "basePath": "src/UI",
+      "path": "components/{{name}}",
+      "files": {
+        "{{name}}.tsx": "templates/component/component.tsx",
+        "index.ts": "templates/component/index.ts",
+        "{{name}}.module.scss": "templates/component/style.scss"
+      }
+    },
+    "page": {
+      "basePath": "src/UI",
+      "path": "pages/{{name}}",
+      "files": {
+        "{{name}}.tsx": "templates/page/page.tsx",
+        "{{name}}.module.scss": "templates/page/style.scss",
+        "index.ts": "templates/page/index.ts"
+      }
+    },
+    "hook": {
+      "path": "hooks",
+      "fileNameStyle": "camelCase",
+      "files": {
+        "{{name}}.ts": "templates/hook/useHook.ts"
+      }
+    }
+  }
+}
+```
+
+This will result in:
+
+```
+src/UI/components/Button/
+src/UI/pages/Home/
+src/hooks/useAuth.ts
+```
+
+Each generator can fully control its output location.
+
 - Add any custom generator by extending the `generators` field.
 - Template files can use Handlebars placeholders: `{{name}}`, `{{PascalCaseName}}`, etc.
+
+```json
+// Example of single file hook generator
+"hook": {
+  "path": "hooks", // generates in src/hooks without folder
+  "fileNameStyle": "camelCase",
+  "files": {
+    "{{name}}.ts": "templates/hook/useHook.ts"
+  }
+}
+```
+
+Then run:
+
+```bash
+npx vite-create hook useAuth
+```
+
+This will generate:
+
+```
+src/hooks/useAuth.ts
+```
 
 ---
 
@@ -188,4 +274,5 @@ MIT — [opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)
 ```
 
 ## Keywords
+
 Vite plugin, component generator, CLI scaffolding tool, template generator, TypeScript, React, vite-plugin-create

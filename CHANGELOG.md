@@ -2,18 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.3.1] - 2024-05-13
+## [1.1.1] - 2025-06-03
 
 ### Added
 
-- CI/CD
-- "files": ["dist"] in package
+- `path` can now be absolute or relative to `basePath`, allowing more flexible directory structures.
+- You can now generate single files instead of folders by specifying a flat `path` (e.g., "hooks").
+- Example: placing `useAuth.ts` directly in `src/hooks` without creating a separate subdirectory.
+- Updated documentation with examples for non-standard project structures.
 
-## [0.3.2] - 2024-05-13
+## [1.0.3] - 2025-06-02
 
 ### FIX
 
-- remove dist in githib
+- Update keywords
 
 ## [1.0.0] - 2025-05-15
 
@@ -27,8 +29,15 @@ All notable changes to this project will be documented in this file.
 - Enhanced CLI for custom entity generation with dynamic template handling.
 - Planned roadmap addition: minimal GUI for visual config editing and online docs with playground.
 
-## [1.0.3] - 2025-06-02
+## [0.3.1] - 2024-05-13
+
+### Added
+
+- CI/CD
+- "files": ["dist"] in package
+
+## [0.3.2] - 2024-05-13
 
 ### FIX
 
-- Update keywords
+- remove dist in githib
