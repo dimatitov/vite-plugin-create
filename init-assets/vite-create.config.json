@@ -7,7 +7,6 @@
   "generators": {
     "component": {
       "path": "components/{{name}}",
-      "fileNameStyle": "pascalCase",
       "filesTS": {
         "{{name}}.tsx": "templates/component/component.tsx",
         "{{name}}.module.scss": "templates/component/style.scss",
@@ -21,7 +20,6 @@
     },
     "page": {
       "path": "pages/{{name}}",
-      "fileNameStyle": "kebab-case",
       "filesTS": {
         "{{name}}.tsx": "templates/page/page.tsx",
         "index.ts": "templates/page/index.ts",

@@ -27,7 +27,11 @@ export const runCreateCommand = async (
     process.exit(1);
   }
 
-  const basePath = path.resolve(process.cwd(), config.defaultPath || "src");
+  const basePath = path.resolve(
+    process.cwd(),
+    generator.basePath || config.defaultPath || "src"
+  );
+  console.log(`Creating in basePath: ${basePath}...`);
 
   const templateVars = {
     name,
