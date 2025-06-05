@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+permissions:
+  contents: write
 
 jobs:
   publish:
@@ -25,7 +27,15 @@ jobs:
         run: npm run build
 
       - name: Bump version
-        run: npm version patch --no-git-tag-version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          npm version patch -m "chore(release): %s"
+
+      - name: Push changes and tags
+        run: |
+          git push origin HEAD
+          git push origin --tags
 
       - name: Publish
         run: npm publish --access public
